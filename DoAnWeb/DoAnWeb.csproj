@@ -30,22 +30,15 @@
   </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Areas\Admin\Component\"/>
-        <Folder Include="Areas\Admin\Data\"/>
-        <Folder Include="Areas\Admin\Models\"/>
-        <Folder Include="Areas\Admin\Views\Shared\Components\"/>
+        <Folder Include="Areas\Admin\Component\" />
+        <Folder Include="Areas\Admin\Data\" />
+        <Folder Include="Areas\Admin\Models\" />
+        <Folder Include="Areas\Admin\Views\Shared\Components\" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="wwwroot\admin\.github\codeql\codeql-config.yml"/>
-        <None Include="wwwroot\admin\.github\CONTRIBUTING.md"/>
-        <None Include="wwwroot\admin\.github\dependabot.yml"/>
-        <None Include="wwwroot\admin\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v3.1-x.md"/>
-        <None Include="wwwroot\admin\.github\ISSUE_TEMPLATE\feature-request-for-adminlte-v4-x.md"/>
-        <None Include="wwwroot\admin\.github\workflows\ci.yml"/>
-        <None Include="wwwroot\admin\.github\workflows\codeql.yml"/>
-        <None Include="wwwroot\admin\.github\workflows\docs.yml"/>
-        <None Include="wwwroot\admin\.github\workflows\lint.yml"/>
+      <None Include="wwwroot\Admin\lib\elFinder\files\.trash\.gitkeep" />
+      <None Include="wwwroot\Admin\lib\elFinder\php\.tmp\.htaccess" />
     </ItemGroup>
 
 </Project>

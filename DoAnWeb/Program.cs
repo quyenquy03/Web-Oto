@@ -15,7 +15,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddSassCompiler();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
-	cfg.Cookie.Name = "BonsaiShop";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+	cfg.Cookie.Name = "DoAnWeb";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
 	cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
 	cfg.Cookie.HttpOnly = true;
 	cfg.Cookie.IsEssential = true;
