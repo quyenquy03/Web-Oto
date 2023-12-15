@@ -1,4 +1,5 @@
-﻿using DoAnWeb.Models;
+﻿using DoAnWeb.Context;
+using DoAnWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,9 +8,9 @@ namespace DoAnWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly DataContext _context;
+        private readonly MyDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, DataContext context)
+        public HomeController(ILogger<HomeController> logger, MyDbContext context)
         {
             _logger = logger;
             _context = context;

@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace DoAnWeb.Models
 {
     public partial class OrderDetail
     {
-        [Key]
         public int DetailsId { get; set; }
         public int? OrderId { get; set; }
         public int? CarId { get; set; }

@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using DoAnWeb.Areas.Admin.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using DoAnWeb.Models;
 
-namespace DoAnWeb.Models
+namespace DoAnWeb.Context
 {
-    public partial class WebotoContext : DbContext
+    public partial class MyDbContext : DbContext
     {
-        public WebotoContext()
+        public MyDbContext()
         {
         }
 
-        public WebotoContext(DbContextOptions<WebotoContext> options)
+        public MyDbContext(DbContextOptions<MyDbContext> options)
             : base(options)
         {
         }
@@ -28,14 +28,15 @@ namespace DoAnWeb.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
+        public virtual DbSet<Service> Services { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<ViewBlogMenu> ViewBlogMenus { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("data source=QUANGTHINH\\MAYAO;initial catalog=Weboto;integrated security=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=database.techschool.id.vn;Database=Weboto;Encrypt=True;TrustServerCertificate=True;User Id=sa;Password=Tuandev2002@");
             }
         }
 
@@ -243,6 +244,11 @@ namespace DoAnWeb.Models
                 entity.Property(e => e.RoleName).HasMaxLength(50);
             });
 
+            modelBuilder.Entity<Service>(entity =>
+            {
+                entity.Property(e => e.Name).HasMaxLength(255);
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.UserId).HasColumnName("UserID");
@@ -268,6 +274,29 @@ namespace DoAnWeb.Models
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_Users_Role");
+            });
+
+            modelBuilder.Entity<ViewBlogMenu>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("View_Blog_Menu");
+
+                entity.Property(e => e.Adstract).HasMaxLength(255);
+
+                entity.Property(e => e.Author).HasMaxLength(30);
+
+                entity.Property(e => e.Contents).HasColumnType("ntext");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Images).HasMaxLength(200);
+
+                entity.Property(e => e.Link).HasMaxLength(200);
+
+                entity.Property(e => e.MenuId).HasColumnName("MenuID");
+
+                entity.Property(e => e.Title).HasMaxLength(255);
             });
 
             OnModelCreatingPartial(modelBuilder);

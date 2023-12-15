@@ -2,23 +2,22 @@
 @model IList<Blog>
 @using DoAnWeb.Utilities;
 
-            @foreach( var blog in Model)
-            {
-    string url = Functions.TitleSlugGeneration("blog", blog.Title, blog.BlogId);
+@foreach (var blog in Model)
+{
+    string url = blog == null ? "" : Functions.TitleSlugGeneration("blog", blog.Title ?? "", blog.BlogId);
     <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry justify-content-end">
-                        <a href="blog-single.html" class="block-20" style="background-image: url(@blog.Images);">
-                        </a>
-                        <div class="text pt-4">
-                            <div class="meta mb-3">
-                                <div><a href="#">@blog.CreatedDate.ToString("dd-MM-yyyy")</a></div>
-                                <div><a href="#">@blog.Author</a></div>
-                                <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
-                            </div>
-                            <h3 class="heading mt-2"><a href="#">@blog.Title</a></h3>
-                            <p><a href="/@url" class="btn btn-primary">xem them</a></p>
-                        </div>
-                    </div>
-                </div>
-            }
-          
+    <div class="blog-entry justify-content-end">
+        <a href="blog-single.html" class="block-20" style="background-image: url(@blog?.Images);">
+        </a>
+        <div class="text pt-4">
+            <div class="meta mb-3">
+                <div><a href="#">@blog?.CreatedDate?.ToString("dd-MM-yyyy")</a></div>
+                <div><a href="#">@blog?.Author</a></div>
+                <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div>
+            </div>
+            <h3 class="heading mt-2"><a href="#">@blog?.Title</a></h3>
+            <p><a href="/@url" class="btn btn-primary">Xem thêm</a></p>
+        </div>
+    </div>
+</div>
+}

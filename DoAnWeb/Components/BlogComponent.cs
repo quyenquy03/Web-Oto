@@ -1,4 +1,5 @@
-﻿using DoAnWeb.Models;
+﻿using DoAnWeb.Context;
+using DoAnWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -7,8 +8,8 @@ namespace DoAnWeb.Components
 	[ViewComponent(Name = "Blog")]
 	public class BlogComponent : ViewComponent
 	{
-		private readonly DataContext _context;
-		public BlogComponent(DataContext context)
+		private readonly MyDbContext _context;
+		public BlogComponent(MyDbContext context)
 		{
 			_context = context;
 		}

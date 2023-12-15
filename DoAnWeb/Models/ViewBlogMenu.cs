@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DoAnWeb.Models
 {
-    public partial class Blog
+    public partial class ViewBlogMenu
     {
         public long BlogId { get; set; }
         public string? Title { get; set; }
@@ -17,7 +17,6 @@ namespace DoAnWeb.Models
         public int? BlogOrder { get; set; }
         public long? MenuId { get; set; }
         public int? Status { get; set; }
-
-        public virtual Menu? Menu { get; set; }
+        public long Expr1 { get; set; }
     }
 }
