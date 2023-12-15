@@ -1,0 +1,36 @@
+﻿@model IList<Menu>
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="~/Home">Car<span>Book</span></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="oi oi-menu"></span> Menu
+        </button>
+
+        <div class="collapse navbar-collapse" id="ftco-nav">
+            <ul class="navbar-nav ml-auto">
+                @foreach(var menu in Model.Where(m=>m.Levels == 1).OrderBy(n=>n.MenuOrder))
+                {
+                    var Pid = menu.MenuId;
+                    var Smenu = Model.Where(p => p.ParentId == Pid).OrderBy(p => p.MenuOrder).ToList();
+                    @if (Smenu.Count == 0)
+                    {
+                       
+                                <a href="~/@menu.ControllerName" class="nav-link">@menu.MenuName</a>
+                    }
+                    else
+                    {
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">@menu.MenuName</a>
+                            <div class="dropdown-menu m-0">
+                                @foreach(var smn in Smenu)
+                                {
+                                    <a href="~/@menu.ControllerName" class="dropdown-item">@smn.MenuName</a>
+                                }
+                            </div>D
+                        </div>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</nav>
