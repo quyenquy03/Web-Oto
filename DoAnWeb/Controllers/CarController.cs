@@ -1,5 +1,4 @@
 ﻿using DoAnWeb.Context;
-using DoAnWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
