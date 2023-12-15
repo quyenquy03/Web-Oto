@@ -1,4 +1,6 @@
 using DoAnWeb.Config;
+﻿using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using DoAnWeb.Context;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
@@ -8,10 +10,18 @@ var builder = WebApplication.CreateBuilder(args);
 var connection = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<MyDbContext>(options => options.UseSqlServer(connection));
 // Add services to the container.
-builder.Services.AddControllersWithViews();
-// Add services to lower case url
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+builder.Services.AddSassCompiler();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(cfg => {                    // Đăng ký dịch vụ Session
+	cfg.Cookie.Name = "BonsaiShop";             // Đặt tên Session - tên này sử dụng ở Browser (Cookie)
+	cfg.IdleTimeout = new TimeSpan(0, 30, 0);    // Thời gian tồn tại của Session
+	cfg.Cookie.HttpOnly = true;
+	cfg.Cookie.IsEssential = true;
+});
 
+builder.Services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.TopRight; });
 var app = builder.Build();
 var options = new RewriteOptions().Add(new SystemRules.RedirectLowerCaseRule());
 app.UseRewriter(options);
@@ -25,10 +35,11 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseNotyf();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.UseEndpoints(endpoints =>
 {
