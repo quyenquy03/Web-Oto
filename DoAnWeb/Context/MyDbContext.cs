@@ -17,18 +17,17 @@ namespace DoAnWeb.Context
         {
         }
 
-        public virtual DbSet<AdminMenu> AdminMenus { get; set; } = null!;
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
         public virtual DbSet<Car> Cars { get; set; } = null!;
         public virtual DbSet<CarImage> CarImages { get; set; } = null!;
         public virtual DbSet<Contact> Contacts { get; set; } = null!;
-        public virtual DbSet<Location> Locations { get; set; } = null!;
         public virtual DbSet<Menu> Menus { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Service> Services { get; set; } = null!;
+        public virtual DbSet<Sysdiagram> Sysdiagrams { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<ViewBlogMenu> ViewBlogMenus { get; set; } = null!;
 
@@ -36,31 +35,13 @@ namespace DoAnWeb.Context
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=database.techschool.id.vn;Database=Weboto;Encrypt=True;TrustServerCertificate=True;User Id=sa;Password=Tuandev2002@");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AdminMenu>(entity =>
-            {
-                entity.ToTable("AdminMenu");
-
-                entity.Property(e => e.ActionName).HasMaxLength(20);
-
-                entity.Property(e => e.AreaName).HasMaxLength(20);
-
-                entity.Property(e => e.ControllerName).HasMaxLength(20);
-
-                entity.Property(e => e.Icon).HasMaxLength(50);
-
-                entity.Property(e => e.IdName).HasMaxLength(50);
-
-                entity.Property(e => e.ItemName).HasMaxLength(50);
-
-                entity.Property(e => e.ItemTarget).HasMaxLength(20);
-            });
-
             modelBuilder.Entity<Blog>(entity =>
             {
                 entity.Property(e => e.Adstract).HasMaxLength(255);
@@ -127,15 +108,6 @@ namespace DoAnWeb.Context
                 entity.Property(e => e.Name).HasMaxLength(50);
 
                 entity.Property(e => e.Subject).HasMaxLength(70);
-            });
-
-            modelBuilder.Entity<Location>(entity =>
-            {
-                entity.Property(e => e.LocationId).HasColumnName("LocationID");
-
-                entity.Property(e => e.Address).HasMaxLength(255);
-
-                entity.Property(e => e.Name).HasMaxLength(255);
             });
 
             modelBuilder.Entity<Menu>(entity =>
@@ -249,30 +221,51 @@ namespace DoAnWeb.Context
                 entity.Property(e => e.Name).HasMaxLength(255);
             });
 
+            modelBuilder.Entity<Sysdiagram>(entity =>
+            {
+                entity.HasKey(e => e.DiagramId)
+                    .HasName("PK__sysdiagr__C2B05B61BFC9E2FA");
+
+                entity.ToTable("sysdiagrams");
+
+                entity.HasIndex(e => new { e.PrincipalId, e.Name }, "UK_principal_name")
+                    .IsUnique();
+
+                entity.Property(e => e.DiagramId).HasColumnName("diagram_id");
+
+                entity.Property(e => e.Definition).HasColumnName("definition");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(128)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.PrincipalId).HasColumnName("principal_id");
+
+                entity.Property(e => e.Version).HasColumnName("version");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.Property(e => e.UserId).HasColumnName("UserID");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Avatar).HasMaxLength(500);
 
                 entity.Property(e => e.Email).HasMaxLength(50);
 
                 entity.Property(e => e.FullName).HasMaxLength(75);
 
-                entity.Property(e => e.LocationId).HasColumnName("LocationID");
-
-                entity.Property(e => e.Password).HasMaxLength(50);
-
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
                 entity.Property(e => e.UserName).HasMaxLength(50);
 
-                entity.HasOne(d => d.Location)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK_Users_Locations");
-
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Users_Role");
             });
 
